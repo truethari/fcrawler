@@ -45,21 +45,20 @@ def _copy_file(source, destination):
     shutil.copy(source, destination)
 
 def _input_source_folder():
-    loop_source_folder = True
-    while loop_source_folder:
+    while True:
         source_folder = str(input("path: ") or 0)
 
         if source_folder == '0':
             source_folder = str(pathlib.Path(__file__).parent.absolute())
             print('{} use as the source folder!'.format(source_folder))
-            loop_source_folder = False
-        
+            break
+
         elif not os.path.exists(source_folder):
             print("No folder found! Enter path again!")
-        
+
         elif os.path.exists(source_folder):
-            loop_source_folder = False
-    
+            break
+
     return source_folder
 
 def _input_destination_folder():
@@ -93,10 +92,22 @@ def _input_txt_path():
     while True:
         txt_path = str(input("Txt path: ") or 0)
         if txt_path == '0':
-            print("Please enter a txt path!")
+            default_path = os.path.join(str(pathlib.Path(__file__).parent.absolute()), 'filelist.txt')
+            if os.path.exists(default_path):
+                txt_path = default_path
+                print("{} loaded.".format(default_path))
+                break
+            else:
+                print("Please enter filelist.txt file path!")
+
+        elif '.txt' not in txt_path:
+            print("Please enter a txt file!")
 
         else:
-            break
+            if not os.path.exists(txt_path):
+                print("File not found! Please enter again!")
+            else:
+                break
 
     return txt_path
 
@@ -139,7 +150,7 @@ def main():
         elif method == 2:
             destination_folder = _input_destination_folder()
             txt_path = _input_txt_path()
-            print("Size = {}MB".format(_file_list_size(_txt_list_of_files(os.path.join(destination_folder, txt_path)))))
+            print("Size = {}MB".format(_file_list_size(_txt_list_of_files(txt_path))))
             user_action = str(input("Do you want to continue? [Y/n]\n"))
             if user_action in ('n', 'N'):
                 sys.exit()
