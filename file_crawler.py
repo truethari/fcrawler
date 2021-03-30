@@ -155,7 +155,12 @@ def main():
             if user_action in ('n', 'N'):
                 sys.exit()
             elif user_action in ('y', 'Y'):
-                pass
+                files_in_txt_file = _txt_list_of_files(txt_path)
+                count = 0
+                for i in files_in_txt_file:
+                    count += 1
+                    _copy_file(i, destination_folder)
+                    print("Copied: {}  {}/{}".format(i, count, len(files_in_txt_file)))
 
         else:
             sys.exit()
