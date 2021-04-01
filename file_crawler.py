@@ -44,9 +44,18 @@ def _convert_bytes(size_in_bytes, unit='MB'):
 def _copy_file(source, destination):
     shutil.copy(source, destination)
 
+def _path_correction(path):
+    if path.startswith("'"):
+        path = path[1:]
+
+    if path.endswith("'"):
+        path = path[:-1]
+    
+    return path
+
 def _input_source_folder():
     while True:
-        source_folder = str(input("path: ") or 0)
+        source_folder = _path_correction(str(input("path: ") or 0))
 
         if source_folder == '0':
             source_folder = str(pathlib.Path(__file__).parent.absolute())
@@ -63,7 +72,7 @@ def _input_source_folder():
 
 def _input_destination_folder():
     while True:
-        destination_folder = str(input("dest: ") or 0)
+        destination_folder = _path_correction(str(input("dest: ") or 0))
 
         if destination_folder == '0':
             destination_folder = str(pathlib.Path(__file__).parent.absolute())
@@ -90,7 +99,8 @@ def _input_file_extention():
 
 def _input_txt_path():
     while True:
-        txt_path = str(input("Txt path: ") or 0)
+        txt_path = _path_correction(str(input("Txt path: ") or 0))
+
         if txt_path == '0':
             default_path = os.path.join(str(pathlib.Path(__file__).parent.absolute()), 'filelist.txt')
             if os.path.exists(default_path):
