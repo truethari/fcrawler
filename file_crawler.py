@@ -47,10 +47,8 @@ def _copy_file(source, destination):
 def _path_correction(path):
     if path.startswith("'"):
         path = path[1:]
-
     if path.endswith("'"):
         path = path[:-1]
-    
     return path
 
 def _input_source_folder():
@@ -133,12 +131,12 @@ def _file_list_size(file_list):
     return _convert_bytes(list_size)
 
 def _file_list_to_txt(folder, content):
-    f = open(os.path.join(folder, "filelist.txt"), "a")
+    text_file = open(os.path.join(folder, "filelist.txt"), "a")
     try:
-        f.write(content + '\n')
+        text_file.write(content + '\n')
     except UnicodeEncodeError:
         pass
-    f.close()
+    text_file.close()
 
 def main():
     main_loop = True
@@ -162,15 +160,20 @@ def main():
             txt_path = _input_txt_path()
             print("Size = {}MB".format(_file_list_size(_txt_list_of_files(txt_path))))
             user_action = str(input("Do you want to continue? [Y/n]\n"))
+
             if user_action in ('n', 'N'):
                 sys.exit()
             elif user_action in ('y', 'Y'):
                 files_in_txt_file = _txt_list_of_files(txt_path)
                 count = 0
+
+                print("\n")
                 for i in files_in_txt_file:
                     count += 1
                     _copy_file(i, destination_folder)
-                    print("Copied: {}  {}/{}".format(i, count, len(files_in_txt_file)))
+                    remaining_count = str(count) + '/' + str(len(files_in_txt_file))
+                    print("Copied: {:<100}\t{:<10}".format(i, remaining_count))
+                print("\n")
 
         else:
             sys.exit()
