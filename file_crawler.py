@@ -128,7 +128,7 @@ def _file_list_size(file_list):
     for i in file_list:
         list_size += _file_size(i)
 
-    return _convert_bytes(list_size)
+    return list_size
 
 def _file_list_to_txt(folder, content):
     text_file = open(os.path.join(folder, "filelist.txt"), "a")
@@ -158,7 +158,15 @@ def main():
         elif method == 2:
             destination_folder = _input_destination_folder()
             txt_path = _input_txt_path()
-            print("Size = {}MB".format(_file_list_size(_txt_list_of_files(txt_path))))
+            file_list_size_bytes = _file_list_size(_txt_list_of_files(txt_path))
+            file_list_size_mb = _convert_bytes(file_list_size_bytes)
+
+            if file_list_size_mb > 1024:
+                file_list_size = str(_convert_bytes(file_list_size_bytes, 'GB')) + 'GB'
+            else:
+                file_list_size = str(file_list_size_mb) + 'MB'
+
+            print("Size = {}".format(file_list_size))
             user_action = str(input("Do you want to continue? [Y/n]\n"))
 
             if user_action in ('n', 'N'):
