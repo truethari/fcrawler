@@ -138,6 +138,9 @@ def _file_list_to_txt(folder, content):
         pass
     text_file.close()
 
+def _disk_space(folder_path):
+    return shutil.disk_usage(folder_path)[2]
+
 def main():
     main_loop = True
     while main_loop:
@@ -167,6 +170,9 @@ def main():
                 file_list_size = str(file_list_size_mb) + 'MB'
 
             print("Size = {}".format(file_list_size))
+            if file_list_size_bytes > _disk_space(destination_folder):
+                print("Warning! Low disk space.")
+
             user_action = str(input("Do you want to continue? [Y/n]\n"))
 
             if user_action in ('n', 'N'):
