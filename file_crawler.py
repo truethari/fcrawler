@@ -42,8 +42,13 @@ def _convert_bytes(size_in_bytes, unit='MB'):
 
     return size
 
-def _copy_file(source, destination):
-    shutil.copy(source, destination)
+def _copy_file(source, destination, opt=1):
+    if opt == 1:
+        shutil.copy(source, destination)
+    elif opt == 2:
+        full_path_destination = (destination + os.path.dirname(source))
+        os.makedirs(full_path_destination, exist_ok=True)
+        shutil.copy(source , full_path_destination)
 
 def _path_correction(path):
     if path.startswith("'"):
@@ -189,6 +194,7 @@ def main():
                         remaining_count = str(count) + '/' + str(len(files_in_txt_file))
                         print("EXISTS: {:<100}\t{:<10}".format(os.path.join(destination_folder, ntpath.basename(i)), remaining_count))
                         continue
+
                     else:
                         _copy_file(i, destination_folder)
                         remaining_count = str(count) + '/' + str(len(files_in_txt_file))
