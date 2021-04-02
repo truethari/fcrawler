@@ -8,6 +8,7 @@ import os
 import shutil
 import sys
 import pathlib
+import ntpath
 
 def _list_of_files(directory, extention):
     listoffiles = list()
@@ -184,9 +185,14 @@ def main():
                 print("\n")
                 for i in files_in_txt_file:
                     count += 1
-                    _copy_file(i, destination_folder)
-                    remaining_count = str(count) + '/' + str(len(files_in_txt_file))
-                    print("Copied: {:<100}\t{:<10}".format(i, remaining_count))
+                    if os.path.isfile(os.path.join(destination_folder, ntpath.basename(i))):
+                        remaining_count = str(count) + '/' + str(len(files_in_txt_file))
+                        print("EXISTS: {:<100}\t{:<10}".format(os.path.join(destination_folder, ntpath.basename(i)), remaining_count))
+                        continue
+                    else:
+                        _copy_file(i, destination_folder)
+                        remaining_count = str(count) + '/' + str(len(files_in_txt_file))
+                        print("Copied: {:<100}\t{:<10}".format(i, remaining_count))
                 print("\n")
 
         else:
