@@ -1,10 +1,12 @@
 import sys
 import optparse
 
-from .version   import __version__
+from file_crawler.version           import __version__
+from file_crawler.application       import worker
 
 def main():
-    usage = "usage: %prog [-s | --src] source_folder [-d | --dst] desination_folder [-t | --type] file_type [options]"
+    usage = "usage: %prog [-s | --src] source_folder [-d | --dst] desination_folder \
+            [-t | --type] file_type [options]"
     parser = optparse.OptionParser(description="FILE-CRAWLER v" + __version__, usage=usage)
 
     parser.add_option("-s", "--src",
@@ -37,7 +39,7 @@ def main():
             default=False,
             help="show file-crawler version and exit"
             )
-    (options, args) = parser.parse_args()
+    (options, _) = parser.parse_args()
     options = vars(options)
 
     if options['version']:
@@ -55,7 +57,8 @@ def main():
         pass
 
     else:
-        pass
+        worker(options['src'], options['dst'], options['type'], options['list'],
+               options['file_list'], options['not_tree'])
 
 if __name__ == '__main__':
     main()

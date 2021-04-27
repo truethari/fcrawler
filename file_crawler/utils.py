@@ -13,16 +13,17 @@ def _convert_bytes(size_in_bytes, unit='MiB'):
 
     return size
 
-def _copy_file(source, destination, opt=1):
-    if opt == 1:
+def _copy_file(source, destination, not_tree):
+    if not_tree:
         shutil.copy(source, destination)
 
-    elif opt == 2:
-        if destination.endswith('\\') or destination.endswith('/'):
-            destination = destination[:-1]
-        if destination.startswith('\\') or destination.startswith('/'):
-            destination = destination[1:]
+    elif not not_tree:
+        tmp_source = source
+        if tmp_source.endswith('\\') or tmp_source.endswith('/'):
+            tmp_source = tmp_source[:-1]
+        if tmp_source.startswith('\\') or tmp_source.startswith('/'):
+            tmp_source = tmp_source[1:]
 
-        full_path_destination = os.path.join(destination, os.path.dirname(source))
+        full_path_destination = os.path.join(destination, os.path.dirname(tmp_source))
         os.makedirs(full_path_destination, exist_ok=True)
         shutil.copy(source , full_path_destination)
