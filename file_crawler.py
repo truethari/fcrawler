@@ -1,9 +1,3 @@
-"""
-File Crawler
-
-For test purposes only.
-"""
-
 import os
 import shutil
 import sys
@@ -12,7 +6,7 @@ import ntpath
 
 def _list_of_files(directory, extention):
     listoffiles = list()
-    for (dirpath, dirnames, filenames) in os.walk(directory):
+    for (dirpath, _, filenames) in os.walk(directory):
         for filename in filenames:
             if filename.endswith(extention):
                 listoffiles.append(os.path.join(dirpath, filename))
@@ -30,12 +24,12 @@ def _txt_list_of_files(txt_filepath):
 
     return txt_lines
 
-def _convert_bytes(size_in_bytes, unit='MB'):
-    if unit == 'KB':
+def _convert_bytes(size_in_bytes, unit='MiB'):
+    if unit == 'KiB':
         size = round((size_in_bytes/1024), 2)
-    elif unit == 'MB':
+    elif unit == 'MiB':
         size = round(size_in_bytes/(1024*1024), 2)
-    elif unit == 'GB':
+    elif unit == 'GiB':
         size = round(size_in_bytes/(1024*1024*1024), 2)
     else:
         size = size_in_bytes
@@ -148,12 +142,13 @@ def _disk_space(folder_path):
     return shutil.disk_usage(folder_path)[2]
 
 def main():
-    main_loop = True
-    while main_loop:
-        method = int(input("  [1] Create filelist.txt\n"\
+    while True:
+        method = int(input(
+                        "  [1] Create filelist.txt\n"\
                         "  [2] Copy files using filelist.txt\n"\
                         "  [3] Create filelist and Copy Files\n"\
-                        "  [4] Exit\n"))
+                        "  [4] Exit\n")
+                        )
 
         if method == 1:
             source_folder = _input_source_folder()
@@ -171,9 +166,9 @@ def main():
             file_list_size_mb = _convert_bytes(file_list_size_bytes)
 
             if file_list_size_mb > 1024:
-                file_list_size = str(_convert_bytes(file_list_size_bytes, 'GB')) + 'GB'
+                file_list_size = str(_convert_bytes(file_list_size_bytes, 'GiB')) + 'GiB'
             else:
-                file_list_size = str(file_list_size_mb) + 'MB'
+                file_list_size = str(file_list_size_mb) + 'MiB'
 
             print("Size = {}".format(file_list_size))
             if file_list_size_bytes > _disk_space(destination_folder):
@@ -196,7 +191,7 @@ def main():
                         continue
 
                     else:
-                        _copy_file(i, destination_folder)
+                        _copy_file(i, destination_folder, opt=2)
                         remaining_count = str(count) + '/' + str(len(files_in_txt_file))
                         print("Copied: {:<100}\t{:<10}".format(i, remaining_count))
                 print("\n")
