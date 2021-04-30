@@ -117,8 +117,9 @@ def _input_filelist(option="create"):
 def viewer():
     while True:
         try:
-            user_input = int(input("[1] Copy files from directory(tree) to directory\n"
-                                   "[2] Copy files from directory(not tree) to directory\n"
+            user_input = int(input("[1] Copy files from a directory to another\n"
+                                   "[2] Copy files from a directory to another "
+                                   "(without creating subfolders)\n"
                                    "[3] Copy files using a filelist\n"
                                    "[4] Create filelist\n"
                                    "[5] Exit\n> "))
@@ -139,6 +140,8 @@ def viewer():
         except ValueError:
             print("Invalid input!")
             continue
+        except KeyboardInterrupt:
+            sys.exit()
 
     ###not completed###
 
