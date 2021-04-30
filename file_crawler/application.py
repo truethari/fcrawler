@@ -42,3 +42,16 @@ def worker(src_folder, dst_folder, file_type, use_list, file_list, not_tree):
             index += 1
 
         app.copy_files(txt_lines, not_tree)
+
+def create_filelist(source_folder, file_type, save_path):
+    app = Crawler(source_folder, None, file_type)
+    filelist = app.filelist()
+    text_file = open(os.path.join(save_path, "filelist.txt"), "a")
+    for filename in filelist:
+        try:
+            text_file.write(filename + '\n')
+        except UnicodeEncodeError:
+            pass
+    text_file.close()
+
+    return True
