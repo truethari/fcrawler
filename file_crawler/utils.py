@@ -27,3 +27,12 @@ def _copy_file(source, destination, not_tree):
         full_path_destination = os.path.join(destination, os.path.dirname(tmp_source))
         os.makedirs(full_path_destination, exist_ok=True)
         shutil.copy(source , full_path_destination)
+
+def path_correction(path):
+    if path != None:
+        if path.startswith("'") or path.startswith("\""):
+            path = path[1:]
+        if path.endswith("'") or path.endswith("\""):
+            path = path[:-1]
+
+    return path

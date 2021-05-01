@@ -3,20 +3,12 @@ import sys
 
 from file_crawler.version           import __version__
 from file_crawler.application       import worker, create_filelist
-
-def _path_correction(path):
-    if not (path or not path):
-        if path.startswith("'") or path.startswith("\""):
-            path = path[1:]
-        if path.endswith("'") or path.endswith("\""):
-            path = path[:-1]
-
-    return path
+from file_crawler.utils             import path_correction
 
 def _input_source_folder():
     current_folder = os.getcwd()
     while True:
-        source_folder = input("Source folder\n: ") or None
+        source_folder = path_correction(input("Source folder\n: ") or None)
         if source_folder is not None:
             if not os.path.isdir(source_folder):
                 print("source folder: '{}' No such directory. Enter it again.\n" \
@@ -33,12 +25,12 @@ def _input_source_folder():
             else:
                 sys.exit()
 
-    return _path_correction(source_folder)
+    return source_folder
 
 def _input_desination_folder(source_folder=None):
     current_folder = os.getcwd()
     while True:
-        desination_folder = input("Desination folder\n: ") or None
+        desination_folder = path_correction(input("Desination folder\n: ") or None)
         if desination_folder is not None:
             if not os.path.isdir(desination_folder):
                 print("desination folder: '{}' No such directory. Enter it again.\n." \
@@ -58,14 +50,14 @@ def _input_desination_folder(source_folder=None):
             else:
                 print("Enter a valid path to the destination folder.\n")
 
-    return _path_correction(desination_folder)
+    return desination_folder
 
 def _input_filelist(option="create"):
     current_folder = os.getcwd()
     if option == "create":
         while True:
-            filelist_path = input("Specify a folder path to save the filelist.txt.\nPress Enter "
-                                  "to save the filelist.txt to the current folder\n: ") or None
+            filelist_path = path_correction(input("Specify a folder path to save the filelist.txt.\n"
+                            "Press Enter to save the filelist.txt to the current folder\n: ") or None)
             if filelist_path is None:
                 filelist_path = current_folder
                 break
@@ -80,8 +72,8 @@ def _input_filelist(option="create"):
     elif option == "input":
         txt_files = []
         while True:
-            filelist_path = input("Filelist (.txt) file path\nPress Enter to select a "
-                                  "text file from the current folder\n: ") or None
+            filelist_path = path_correction(input("Filelist (.txt) file path\nPress Enter to "
+                                            "select a text file from the current folder\n: ") or None)
             if filelist_path is not None:
                 if not os.path.isfile(filelist_path):
                     print("filelist path: '{}' No such text file. Enter it again.\n" \
@@ -120,7 +112,7 @@ def _input_filelist(option="create"):
                             continue
                     break
 
-    return _path_correction(filelist_path)
+    return filelist_path
 
 def _input_type():
     return input("File type (Ex: .mp4, .zip)\n: ")
