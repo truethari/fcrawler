@@ -5,6 +5,15 @@ import optparse
 from file_crawler.version           import __version__
 from file_crawler.application       import worker, create_filelist
 
+def _path_correction(path):
+    if not (path or not path):
+        if path.startswith("'") or path.startswith("\""):
+            path = path[1:]
+        if path.endswith("'") or path.endswith("\""):
+            path = path[:-1]
+
+    return path
+
 def _input_source_folder():
     current_folder = os.getcwd()
     while True:
@@ -25,7 +34,7 @@ def _input_source_folder():
             else:
                 sys.exit()
 
-    return source_folder
+    return _path_correction(source_folder)
 
 def _input_desination_folder(source_folder=None):
     current_folder = os.getcwd()
@@ -50,7 +59,7 @@ def _input_desination_folder(source_folder=None):
             else:
                 print("Enter a valid path to the destination folder.\n")
 
-    return desination_folder
+    return _path_correction(desination_folder)
 
 def _input_filelist(option="create"):
     current_folder = os.getcwd()
@@ -112,7 +121,7 @@ def _input_filelist(option="create"):
                             continue
                     break
 
-    return filelist_path
+    return _path_correction(filelist_path)
 
 def _input_type():
     return input("File type (Ex: .mp4, .zip)\n: ")
@@ -159,16 +168,14 @@ def viewer():
                 raise ValueError
 
         except ValueError:
-            print("Invalid input!")
+            print("Invalid input!\n")
             continue
         except KeyboardInterrupt:
             sys.exit()
 
-    ###not completed###
-
 def main():
-    usage = "usage: %prog [-s | --src] source_folder [-d | --dst] desination_folder \
-            [-t | --type] file_type [options]"
+    usage = ("usage: %prog [-s | --src] source_folder [-d | --dst] desination_folder "
+            "[-t | --type] file_type [options]")
     parser = optparse.OptionParser(description="FILE-CRAWLER v" + __version__, usage=usage)
 
     parser.add_option("-s", "--src",
@@ -219,8 +226,9 @@ def main():
         viewer()
 
     else:
-        worker(options['src'], options['dst'], options['type'], options['list'],
-               options['file_list'], options['not_tree'])
+        worker(_path_correction(options['src']), _path_correction(options['dst']),
+               options['type'], _path_correction(options['list']), options['file_list'],
+               options['not_tree'])
 
 if __name__ == '__main__':
     main()
