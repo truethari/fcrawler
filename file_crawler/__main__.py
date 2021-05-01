@@ -114,6 +114,9 @@ def _input_filelist(option="create"):
 
         return filelist_path
 
+def _input_type():
+    return input("File type (Ex: .mp4, .zip)\n: ")
+
 def viewer():
     while True:
         try:
