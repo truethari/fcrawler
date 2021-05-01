@@ -139,20 +139,20 @@ def viewer():
                 source_folder = _input_source_folder()
                 file_type = _input_type()
                 desination_folder = _input_desination_folder()
-                worker(source_folder, desination_folder, file_type, False, False, False)
+                worker(source_folder, desination_folder, file_type, False, False)
                 print("\n")
 
             elif user_input == 2:
                 source_folder = _input_source_folder()
                 file_type = _input_type()
                 desination_folder = _input_desination_folder()
-                worker(source_folder, desination_folder, file_type, False, False, True)
+                worker(source_folder, desination_folder, file_type, False, True)
                 print("\n")
 
             elif user_input == 3:
                 filelist = _input_filelist("input")
                 desination_folder = _input_desination_folder()
-                worker(None, desination_folder, None, filelist, False, False)
+                worker(None, desination_folder, None, filelist, False)
                 print("\n")
 
             elif user_input == 4:
@@ -227,8 +227,7 @@ def main():
 
     else:
         worker(_path_correction(options['src']), _path_correction(options['dst']),
-               options['type'], _path_correction(options['list']), options['file_list'],
-               options['not_tree'])
+               options['type'], _path_correction(options['list']), options['not_tree'])
 
 if __name__ == '__main__':
     main()

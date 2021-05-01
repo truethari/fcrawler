@@ -26,7 +26,7 @@ class Crawler:
         for file in self.listoffiles:
             _copy_file(file, self.dst_folder, not_tree)
 
-def worker(src_folder, dst_folder, file_type, use_list, file_list, not_tree):
+def worker(src_folder, dst_folder, file_type, use_list, not_tree):
     app = Crawler(src_folder, dst_folder, file_type)
 
     if not use_list:
