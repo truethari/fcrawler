@@ -3,7 +3,7 @@ import sys
 import optparse
 
 from file_crawler.version           import __version__
-from file_crawler.application       import worker
+from file_crawler.application       import worker, create_filelist
 
 def _input_source_folder():
     current_folder = os.getcwd()
@@ -112,7 +112,7 @@ def _input_filelist(option="create"):
                             continue
                     break
 
-        return filelist_path
+    return filelist_path
 
 def _input_type():
     return input("File type (Ex: .mp4, .zip)\n: ")
@@ -127,18 +127,36 @@ def viewer():
                                    "[4] Create filelist\n"
                                    "[5] Exit\n> "))
             if user_input == 1:
-                pass
+                source_folder = _input_source_folder()
+                file_type = _input_type()
+                desination_folder = _input_desination_folder()
+                worker(source_folder, desination_folder, file_type, False, False, False)
+                print("\n")
+
             elif user_input == 2:
-                pass
+                source_folder = _input_source_folder()
+                file_type = _input_type()
+                desination_folder = _input_desination_folder()
+                worker(source_folder, desination_folder, file_type, False, False, True)
+                print("\n")
+
             elif user_input == 3:
-                pass
+                filelist = _input_filelist("input")
+                desination_folder = _input_desination_folder()
+                worker(None, desination_folder, None, filelist, False, False)
+                print("\n")
+
             elif user_input == 4:
-                pass
+                source_folder = _input_source_folder()
+                file_type = _input_type()
+                save_path = _input_filelist()
+                create_filelist(source_folder, file_type, save_path)
+                print("\n")
+
             if user_input == 5:
                 sys.exit()
             elif user_input > 5:
-                print("Invalid input!")
-                continue
+                raise ValueError
 
         except ValueError:
             print("Invalid input!")
