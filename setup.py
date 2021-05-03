@@ -26,6 +26,7 @@ setup(
     ],
     packages=['file_crawler'],
     include_package_data=True,
+    install_requires=["pyfiglet"],
     entry_points={
         "console_scripts": [
             "file-crawler=file_crawler.__main__:main",

@@ -1,5 +1,6 @@
 import os
 import sys
+import pyfiglet
 
 from file_crawler.version           import __version__
 from file_crawler.application       import worker, create_filelist
@@ -121,6 +122,7 @@ def _input_type():
 def main():
     while True:
         try:
+            print(pyfiglet.figlet_format("File Crawler"))
             user_input = int(input("[1] Copy files from a directory to another\n"
                                    "[2] Copy files from a directory to another "
                                    "(without creating subfolders)\n"
