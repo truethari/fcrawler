@@ -23,10 +23,15 @@ class Crawler:
         else:
             self.listoffiles = custom_list
 
+        tot_files = len(self.listoffiles)
+        count = 0
+        print("\n")
         for file in self.listoffiles:
-            _copy_file(file, self.dst_folder, not_tree)
+            count += 1
+            _copy_file(file, self.dst_folder, not_tree, count, tot_files)
+        print("\n")
 
-def worker(src_folder, dst_folder, file_type, use_list, not_tree):
+def worker(src_folder=None, dst_folder=None, file_type=None, use_list=False, not_tree=False):
     app = Crawler(src_folder, dst_folder, file_type)
 
     if not use_list:

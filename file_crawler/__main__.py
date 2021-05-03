@@ -56,7 +56,7 @@ def _input_filelist(option="create"):
     current_folder = os.getcwd()
     if option == "create":
         while True:
-            filelist_path = path_correction(input("Specify a folder path to save the filelist.txt.\n"
+            filelist_path = path_correction(input("Specify a folder path to save the filelist.txt. "
                             "Press Enter to save the filelist.txt to the current folder\n: ") or None)
             if filelist_path is None:
                 filelist_path = current_folder
@@ -72,7 +72,7 @@ def _input_filelist(option="create"):
     elif option == "input":
         txt_files = []
         while True:
-            filelist_path = path_correction(input("Filelist (.txt) file path\nPress Enter to "
+            filelist_path = path_correction(input("Filelist (.txt) file path. Press Enter to "
                                             "select a text file from the current folder\n: ") or None)
             if filelist_path is not None:
                 if not os.path.isfile(filelist_path):
@@ -105,7 +105,8 @@ def _input_filelist(option="create"):
                             if txt_file_number > len(txt_files) or txt_file_number == 0:
                                 raise ValueError
                             else:
-                                filelist_path = os.path.join(current_folder, txt_files[txt_file_number - 1])
+                                filelist_path = os.path.join(current_folder,
+                                                txt_files[txt_file_number - 1])
                                 break
                         except ValueError:
                             print("Invalid number. Enter it again\n")
@@ -117,7 +118,7 @@ def _input_filelist(option="create"):
 def _input_type():
     return input("File type (Ex: .mp4, .zip)\n: ")
 
-def viewer():
+def main():
     while True:
         try:
             user_input = int(input("[1] Copy files from a directory to another\n"
@@ -130,20 +131,20 @@ def viewer():
                 source_folder = _input_source_folder()
                 file_type = _input_type()
                 desination_folder = _input_desination_folder()
-                worker(source_folder, desination_folder, file_type, False, False)
+                worker(source_folder, desination_folder, file_type)
                 print("\n")
 
             elif user_input == 2:
                 source_folder = _input_source_folder()
                 file_type = _input_type()
                 desination_folder = _input_desination_folder()
-                worker(source_folder, desination_folder, file_type, False, True)
+                worker(source_folder, desination_folder, file_type, not_tree=True)
                 print("\n")
 
             elif user_input == 3:
                 filelist = _input_filelist("input")
                 desination_folder = _input_desination_folder()
-                worker(None, desination_folder, None, filelist, False)
+                worker(dst_folder=desination_folder, use_list=filelist)
                 print("\n")
 
             elif user_input == 4:
@@ -163,9 +164,6 @@ def viewer():
             continue
         except KeyboardInterrupt:
             sys.exit()
-
-def main():
-    viewer()
 
 if __name__ == '__main__':
     main()
