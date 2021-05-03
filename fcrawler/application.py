@@ -1,6 +1,6 @@
 import os
 
-from file_crawler.utils     import _copy_file
+from fcrawler.utils     import _copy_file
 
 class Crawler:
     def __init__(self, source_folder, desination_folder, file_type):
