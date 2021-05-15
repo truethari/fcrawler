@@ -23,6 +23,8 @@ def _copy_file(source, destination, not_tree, counter=0, total=0):
             tmp_source = tmp_source[:-1]
         if tmp_source.startswith('\\') or tmp_source.startswith('/'):
             tmp_source = tmp_source[1:]
+        if ":" in tmp_source:
+            tmp_source = tmp_source.replace(":", "")
 
         full_path_destination = os.path.join(destination, os.path.dirname(tmp_source))
         os.makedirs(full_path_destination, exist_ok=True)
