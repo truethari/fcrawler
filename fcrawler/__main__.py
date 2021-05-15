@@ -134,20 +134,17 @@ def main():
                 file_type = _input_type()
                 desination_folder = _input_desination_folder()
                 worker(source_folder, desination_folder, file_type)
-                print("\n")
 
             elif user_input == 2:
                 source_folder = _input_source_folder()
                 file_type = _input_type()
                 desination_folder = _input_desination_folder()
                 worker(source_folder, desination_folder, file_type, not_tree=True)
-                print("\n")
 
             elif user_input == 3:
                 filelist = _input_filelist("input")
                 desination_folder = _input_desination_folder()
                 worker(dst_folder=desination_folder, use_list=filelist)
-                print("\n")
 
             elif user_input == 4:
                 source_folder = _input_source_folder()

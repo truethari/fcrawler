@@ -25,11 +25,9 @@ class Crawler:
 
         tot_files = len(self.listoffiles)
         count = 0
-        print("\n")
         for file in self.listoffiles:
             count += 1
             _copy_file(file, self.dst_folder, not_tree, count, tot_files)
-        print("\n")
 
 def worker(src_folder=None, dst_folder=None, file_type=None, use_list=False, not_tree=False):
     app = Crawler(src_folder, dst_folder, file_type)
