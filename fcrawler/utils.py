@@ -16,6 +16,7 @@ def _convert_bytes(size_in_bytes, unit='MiB'):
 def _copy_file(source, destination, not_tree, counter=0, total=0):
     if not_tree:
         shutil.copy(source, destination)
+        print("Copied: {:<100}\t{:<10}".format(source, (str(counter) + "/" + str(total))))
 
     elif not not_tree:
         tmp_source = source
