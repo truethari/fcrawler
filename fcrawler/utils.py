@@ -15,8 +15,11 @@ def _convert_bytes(size_in_bytes, unit='MiB'):
 
 def _copy_file(source, destination, not_tree, counter=0, total=0):
     if not_tree:
-        shutil.copy(source, destination)
-        print("Copied: {:<100}\t{:<10}".format(source, (str(counter) + "/" + str(total))))
+        if os.path.isfile(os.path.join(destination, os.path.basename(source))):
+            print("Skipped: {:<100}\t{:<10}".format(source, (str(counter) + "/" + str(total))))
+        else:
+            shutil.copy(source, destination)
+            print("Copied: {:<100}\t{:<10}".format(source, (str(counter) + "/" + str(total))))
 
     elif not not_tree:
         tmp_source = source
@@ -29,8 +32,11 @@ def _copy_file(source, destination, not_tree, counter=0, total=0):
 
         full_path_destination = os.path.join(destination, os.path.dirname(tmp_source))
         os.makedirs(full_path_destination, exist_ok=True)
-        shutil.copy(source , full_path_destination)
-        print("Copied: {:<100}\t{:<10}".format(source, (str(counter) + "/" + str(total))))
+        if os.path.isfile(os.path.join(full_path_destination, os.path.basename(source))):
+            print("Skipped: {:<100}\t{:<10}".format(source, (str(counter) + "/" + str(total))))
+        else:
+            shutil.copy(source , full_path_destination)
+            print("Copied: {:<100}\t{:<10}".format(source, (str(counter) + "/" + str(total))))
 
 def path_correction(path):
     if path is not None:
