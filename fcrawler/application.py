@@ -1,4 +1,5 @@
 import os
+import sys
 
 from fcrawler.utils     import _copy_file
 
@@ -10,9 +11,18 @@ class Crawler:
         self.listoffiles = list()
 
     def filelist(self):
-        for (dirpath, _, filenames) in os.walk(self.src_folder):
+        files = 0
+        sys.stdout.write("Hold on. This will take some time")
+        sys.stdout.flush()
+        os_walk = os.walk(self.src_folder)
+        for (dirpath, _, filenames) in os_walk:
             for filename in filenames:
                 if filename.endswith(self.file_type):
+                    files += 1
+                    sys.stdout.write('\r')
+                    sys.stdout.write("{} files of '{}' file type were found."
+                                     .format(files, self.file_type))
+                    sys.stdout.flush()
                     self.listoffiles.append(os.path.join(dirpath, filename))
 
         return self.listoffiles
