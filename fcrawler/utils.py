@@ -46,17 +46,3 @@ def path_correction(path):
             path = path[:-1]
 
     return path
-
-def _check_disk_space(filelist, destination):
-    total_size = 0
-    for file in filelist:
-        try:
-            total_size += os.path.getsize(file)
-        except FileNotFoundError:
-            print("'{}' file not found".format(file))
-
-    status = True
-    if total_size > shutil.disk_usage(destination)[2]:
-        status = False
-
-    return status
