@@ -27,7 +27,7 @@ class Crawler:
 
         return self.listoffiles
 
-    def copy_files(self, custom_list=False, not_tree=False):
+    def copy_files(self, custom_list=False, tree=True):
         if not custom_list:
             self.filelist()
         else:
@@ -37,13 +37,13 @@ class Crawler:
         count = 0
         for file in self.listoffiles:
             count += 1
-            _copy_file(file, self.dst_folder, not_tree, count, tot_files)
+            _copy_file(file, self.dst_folder, tree, count, tot_files)
 
-def worker(src_folder=None, dst_folder=None, file_type=None, use_list=False, not_tree=False):
+def worker(src_folder=None, dst_folder=None, file_type=None, use_list=False, tree=True):
     app = Crawler(src_folder, dst_folder, file_type)
 
     if not use_list:
-        app.copy_files(not_tree=not_tree)
+        app.copy_files(tree=tree)
 
     else:
         with open(use_list, "r") as txt_file:
@@ -54,7 +54,7 @@ def worker(src_folder=None, dst_folder=None, file_type=None, use_list=False, not
             txt_lines[index] = i.replace("\n", "")
             index += 1
 
-        app.copy_files(txt_lines, not_tree)
+        app.copy_files(txt_lines, tree)
 
 def create_filelist(source_folder, file_type, save_path):
     app = Crawler(source_folder, None, file_type)

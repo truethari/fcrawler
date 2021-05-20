@@ -133,13 +133,13 @@ def main():
                 source_folder = _input_source_folder()
                 file_type = _input_type()
                 desination_folder = _input_desination_folder()
-                worker(source_folder, desination_folder, file_type)
+                worker(source_folder, desination_folder, file_type, tree=True)
 
             elif user_input == 2:
                 source_folder = _input_source_folder()
                 file_type = _input_type()
                 desination_folder = _input_desination_folder()
-                worker(source_folder, desination_folder, file_type, not_tree=True)
+                worker(source_folder, desination_folder, file_type, tree=False)
 
             elif user_input == 3:
                 filelist = _input_filelist("input")

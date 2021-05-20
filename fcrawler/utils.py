@@ -13,15 +13,8 @@ def _convert_bytes(size_in_bytes, unit='MiB'):
 
     return size
 
-def _copy_file(source, destination, not_tree, counter=0, total=0):
-    if not_tree:
-        if os.path.isfile(os.path.join(destination, os.path.basename(source))):
-            print("Skipped: {:<100}\t{:<10}".format(source, (str(counter) + "/" + str(total))))
-        else:
-            shutil.copy(source, destination)
-            print("Copied: {:<100}\t{:<10}".format(source, (str(counter) + "/" + str(total))))
-
-    elif not not_tree:
+def _copy_file(source, destination, tree, counter=0, total=0):
+    if tree:
         tmp_source = source
         if tmp_source.endswith('\\') or tmp_source.endswith('/'):
             tmp_source = tmp_source[:-1]
@@ -36,6 +29,13 @@ def _copy_file(source, destination, not_tree, counter=0, total=0):
             print("Skipped: {:<100}\t{:<10}".format(source, (str(counter) + "/" + str(total))))
         else:
             shutil.copy(source , full_path_destination)
+            print("Copied: {:<100}\t{:<10}".format(source, (str(counter) + "/" + str(total))))
+
+    elif not tree:
+        if os.path.isfile(os.path.join(destination, os.path.basename(source))):
+            print("Skipped: {:<100}\t{:<10}".format(source, (str(counter) + "/" + str(total))))
+        else:
+            shutil.copy(source, destination)
             print("Copied: {:<100}\t{:<10}".format(source, (str(counter) + "/" + str(total))))
 
 def path_correction(path):
