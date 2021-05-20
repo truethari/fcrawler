@@ -1,5 +1,6 @@
 import os
 import sys
+import shutil
 
 from fcrawler.utils     import _copy_file
 
@@ -27,17 +28,31 @@ class Crawler:
 
         return self.listoffiles
 
+    def check_free_space(self, filelist):
+        total_size = 0
+        status = True
+        for file in filelist:
+            total_size += os.path.getsize(file)
+
+        if total_size > shutil.disk_usage(self.dst_folder)[2]:
+            user_input = input("\nThere is not enough space on the destination drive.\nCopy anyway? [Y/n]\n") or "y"
+            if user_input.lower() != 'y':
+                status = False
+
+        return status
+
     def copy_files(self, custom_list=False, tree=True):
         if not custom_list:
             self.filelist()
         else:
             self.listoffiles = custom_list
 
-        tot_files = len(self.listoffiles)
-        count = 0
-        for file in self.listoffiles:
-            count += 1
-            _copy_file(file, self.dst_folder, tree, count, tot_files)
+        if self.check_free_space(self.listoffiles):
+            count = 0
+            tot_files = len(self.listoffiles)
+            for file in self.listoffiles:
+                count += 1
+                _copy_file(file, self.dst_folder, tree, count, tot_files)
 
 def worker(src_folder=None, dst_folder=None, file_type=None, use_list=False, tree=True):
     app = Crawler(src_folder, dst_folder, file_type)
