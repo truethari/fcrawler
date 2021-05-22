@@ -2,7 +2,6 @@ import os
 import sys
 import pyfiglet
 
-from fcrawler.version           import __version__
 from fcrawler.application       import worker, create_filelist
 from fcrawler.utils             import path_correction
 
